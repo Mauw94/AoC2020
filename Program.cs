@@ -5,7 +5,8 @@ Console.WriteLine("Advent of Code 2020!");
 
 List<IChallenge> days = new()
 {
-    new Day02(Input.Read(2, false)),
+    new Day02(Input.Read(day: 2, testData: false)),
+    new Day06(Input.Read(day: 6, testData: false)),
 };
 
 for (int day = 0; day < days.Count; day++)
