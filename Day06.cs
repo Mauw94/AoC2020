@@ -2,31 +2,29 @@
 {
     class Group
     {
+        private readonly Dictionary<int, List<char>> _answersPerPerson;
+
         public Group()
         {
             _answersPerPerson = new();
         }
 
-        private readonly Dictionary<int, List<char>> _answersPerPerson;
+        public int Persons => _answersPerPerson.Values.Count;
 
-        public int Persons { get; set; }
-
-        public void AddAnswers(char c)
+        public void AddAnswers(char c, int key)
         {
-            if (!_answersPerPerson.ContainsKey(Persons))
-                _answersPerPerson[Persons] = new List<char>();
+            if (!_answersPerPerson.ContainsKey(key))
+                _answersPerPerson[key] = new List<char>();
 
-            _answersPerPerson[Persons].Add(c);
+            _answersPerPerson[key].Add(c);
         }
 
         public int UniqueAnswers()
         {
             HashSet<char> uniqueAnswers = new();
             foreach (var answers in _answersPerPerson.Values)
-            {
                 foreach (var answer in answers)
                     uniqueAnswers.Add(answer);
-            }
 
             return uniqueAnswers.Count;
         }
@@ -34,13 +32,11 @@
         public int OverlappingYesAnswers()
         {
             if (_answersPerPerson.Values.Count == 1) return _answersPerPerson.First().Value.Count;
-            
+
             HashSet<char> overlaps = new(_answersPerPerson.First().Value);
 
             foreach (var answers in _answersPerPerson.Values)
-            {
                 overlaps.IntersectWith(answers);
-            }
 
 
             return overlaps.Count;
@@ -50,45 +46,48 @@
     public class Day06 : IChallenge
     {
         readonly List<string> _input;
-        List<Group> _groups;
+        readonly List<Group> _groups;
 
         public Day06(List<string> input)
         {
             _input = input;
+            _groups = CreateGroups();
         }
 
         public long Part1()
         {
-            Solve();
             return _groups.Sum(g => g.UniqueAnswers());
         }
 
         public long Part2()
         {
-            Solve();
             return _groups.Sum(g => g.OverlappingYesAnswers());
         }
 
-        void Solve()
+        List<Group> CreateGroups()
         {
-            _groups = new();
+            List<Group> groups = new();
             Group group = new();
+            var persons = 0;
 
             foreach (var line in _input)
             {
-                if (line == String.Empty)
+                if (line == string.Empty)
                 {
-                    _groups.Add(group);
+                    groups.Add(group);
                     group = new();
+                    persons = 0;
                     continue;
                 }
 
-                group.Persons++;
+                persons++;
                 foreach (var c in line.ToCharArray())
-                    group.AddAnswers(c);
+                    group.AddAnswers(c, persons);
             }
 
-            _groups.Add(group);
+            groups.Add(group);
+
+            return groups;
         }
     }
 }
