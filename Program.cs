@@ -12,8 +12,8 @@ List<IChallenge> days = new()
 
 for (int day = 0; day < days.Count; day++)
 {
-    Console.WriteLine("Day {0}", day + 1);
-    Console.WriteLine("\t Part 1: {0}", days[day].Part1());
-    Console.WriteLine("\t Part 2: {0}", days[day].Part2());
+    Console.WriteLine("Day {0}", days[day].Day());
+    Console.WriteLine("\t Part 1 result : {0}", days[day].Part1());
+    Console.WriteLine("\t Part 2 result: {0}", days[day].Part2());
     Console.WriteLine("\n");
 }

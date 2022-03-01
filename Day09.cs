@@ -1,4 +1,5 @@
-﻿namespace AoC2020
+﻿
+namespace AoC2020
 {
     class XMASDataChecker
     {
@@ -11,7 +12,7 @@
             _numbers = numbers;
         }
 
-        public long CheckList()
+        public long CheckForInvalidNumber()
         {
             long invalid = 0;
 
@@ -115,7 +116,12 @@
 
         public long Part1()
         {
-            _invalidNumber = _dataChecker.CheckList();
+            PerformanceMonitoring.StartStopwatch();
+
+            _invalidNumber = _dataChecker.CheckForInvalidNumber();
+
+            PerformanceMonitoring.StopStopwatch();
+
             return _invalidNumber;
         }
 
@@ -124,8 +130,14 @@
             if (_invalidNumber == 0)
                 return 0;
 
+            PerformanceMonitoring.StartStopwatch();
+            
             (long smallest, long largest) = _dataChecker.FindContiguousNumbers(_invalidNumber);
+
+            PerformanceMonitoring.StopStopwatch();
+
             return smallest + largest;
         }
+        public int Day() => 9;
     }
 }

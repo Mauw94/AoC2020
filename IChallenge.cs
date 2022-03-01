@@ -2,6 +2,7 @@
 {
     public interface IChallenge
     {
+        int Day();
         long Part1();
         long Part2();
     }

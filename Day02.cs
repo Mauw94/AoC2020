@@ -92,5 +92,7 @@
 
             return new PasswordCheckInfo { Min = min, Max = max, Character = character, Password = password };
         }
+
+        public int Day() => 2;
     }
 }

@@ -89,5 +89,7 @@
 
             return groups;
         }
+
+        public int Day() => 6;
     }
 }
