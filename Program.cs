@@ -7,6 +7,7 @@ List<IChallenge> days = new()
 {
     new Day02(Input.Read(day: 2, testData: false)),
     new Day06(Input.Read(day: 6, testData: false)),
+    new Day09(Input.Read(day: 9, testData: false)),
 };
 
 for (int day = 0; day < days.Count; day++)
