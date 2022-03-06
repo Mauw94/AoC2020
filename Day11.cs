@@ -32,6 +32,7 @@
                     for (int j = 0; j < _seatmap.GetLength(1); j++)
                     {
                         var seat = _seatmap[i, j];
+
                         if (seat == '.') continue;
                         if (seat == 'L')
                             if (CheckNoOccupiedAdjacentSeats(i, j))
@@ -64,19 +65,7 @@
         // Check for no occupied adjacent seats
         bool CheckNoOccupiedAdjacentSeats(int row, int col)
         {
-            List<(int r, int c)> neighbours = new()
-            {
-                (row - 1, col - 1),
-                (row - 1, col),
-                (row - 1, col + 1),
-
-                (row, col - 1),
-                (row, col + 1),
-
-                (row + 1, col - 1),
-                (row + 1, col),
-                (row + 1, col + 1),
-            };
+            List<(int r, int c)> neighbours = CreateNeighbourChecklist(row, col);
 
             var adjacent = neighbours
                 .Where(x => x.r >= 0 && x.r < _rows
@@ -90,7 +79,20 @@
         // Check 4 or more adjacent occupied seats
         bool CheckFourOrMoreAdjacentOccupied(int row, int col)
         {
-            List<(int r, int c)> neighbours = new()
+            List<(int r, int c)> neighbours = CreateNeighbourChecklist(row, col);
+
+            var seats = neighbours
+                .Where(x => x.r >= 0 && x.r < _rows
+                    && x.c >= 0 && x.c < _cols)
+                .Select(x => _seatmap[x.r, x.c])
+                .ToList();
+
+            return seats.Where(x => x == '#').Count() >= 4;
+        }
+
+        static List<(int, int)> CreateNeighbourChecklist(int row, int col)
+        {
+            return new List<(int, int)>
             {
                 (row - 1, col - 1),
                 (row - 1, col),
@@ -103,14 +105,6 @@
                 (row + 1, col),
                 (row + 1, col + 1),
             };
-
-            var seats = neighbours
-                .Where(x => x.r >= 0 && x.r < _rows
-                    && x.c >= 0 && x.c < _cols)
-                .Select(x => _seatmap[x.r, x.c])
-                .ToList();
-
-            return seats.Where(x => x == '#').Count() >= 4;
         }
     }
 
